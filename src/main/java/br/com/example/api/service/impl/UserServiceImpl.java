@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -23,5 +24,10 @@ public class UserServiceImpl implements UserService {
         log.info("retorno da repository {}", obj);
 
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objecto não localizado."));
+    }
+
+    @Override
+    public List<User> findAll() {
+        return repository.findAll();
     }
 }
