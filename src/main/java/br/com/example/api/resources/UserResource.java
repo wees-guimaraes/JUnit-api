@@ -1,8 +1,10 @@
 package br.com.example.api.resources;
 
 import br.com.example.api.domain.User;
+import br.com.example.api.domain.dto.UserDTO;
 import br.com.example.api.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +18,10 @@ public class UserResource {
 
     final UserService service;
 
+    final ModelMapper mapper;
+
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Integer id){
-        return ResponseEntity.ok().body(service.findById(id));
+    public ResponseEntity<UserDTO> findById(@PathVariable Integer id){
+        return ResponseEntity.ok().body(mapper.map(service.findById(id), UserDTO.class));
     }
 }
