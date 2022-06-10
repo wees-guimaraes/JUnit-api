@@ -42,4 +42,5 @@ public class UserResource {
 
         return ResponseEntity.created(uri).build();
     }
+
 }

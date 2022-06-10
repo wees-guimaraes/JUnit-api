@@ -4,6 +4,7 @@ import br.com.example.api.domain.User;
 import br.com.example.api.domain.dto.UserDTO;
 import br.com.example.api.repository.UserRepository;
 import br.com.example.api.service.UserService;
+import br.com.example.api.service.exceptions.DataIntegratyViolationException;
 import br.com.example.api.service.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserDTO userDTO) {
+        findByEmail(userDTO);
         return repository.save(mapper.map(userDTO, User.class));
     }
+
+    private void findByEmail(UserDTO userDTO){
+        Optional<User> user = repository.findByEmail(userDTO.getEmail());
+
+        if (user.isPresent())
+            throw new DataIntegratyViolationException("E-mail já cadastrado no sistema");
+
+    }
+
 }
+
+
