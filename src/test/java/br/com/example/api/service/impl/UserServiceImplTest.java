@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,6 +41,8 @@ class UserServiceImplTest {
 
     private UserDTO userDTO;
     private Optional<User> optionalUser;
+
+    private User user;
 
 
     @BeforeEach
@@ -76,7 +79,14 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findAll() {
+    void whenFindAllThenReturnAnListOfUsers() {
+        when(repository.findAll()).thenReturn(List.of(user));
+
+        List<User> response = service.findAll();
+
+        assertNotNull(response);
+        assertEquals(User.class, response.get(0).getClass());
+
     }
 
     @Test
@@ -92,7 +102,7 @@ class UserServiceImplTest {
     }
 
     private void startUser() {
-        User user = new User(ID, NAME, EMAIL, PASSWORD);
+        user = new User(ID, NAME, EMAIL, PASSWORD);
         userDTO = new UserDTO(ID, NAME, EMAIL, PASSWORD);
         optionalUser = Optional.of(new User(ID, NAME, EMAIL, PASSWORD));
     }
