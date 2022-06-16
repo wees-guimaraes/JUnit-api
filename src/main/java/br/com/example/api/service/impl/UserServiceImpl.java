@@ -19,15 +19,15 @@ import java.util.Optional;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    final UserRepository repository;
-    final ModelMapper mapper;
+    private UserRepository repository;
+    private ModelMapper mapper;
 
     @Override
     public User findById(Integer id) {
         Optional<User> obj = repository.findById(id);
         log.info("retorno da repository {}", obj);
 
-        return obj.orElseThrow(() -> new ObjectNotFoundException("Objecto não localizado."));
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
     @Override
