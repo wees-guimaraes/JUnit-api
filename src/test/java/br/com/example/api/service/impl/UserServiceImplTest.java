@@ -3,6 +3,7 @@ package br.com.example.api.service.impl;
 import br.com.example.api.domain.User;
 import br.com.example.api.domain.dto.UserDTO;
 import br.com.example.api.repository.UserRepository;
+import br.com.example.api.service.exceptions.DataIntegratyViolationException;
 import br.com.example.api.service.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -90,7 +91,27 @@ class UserServiceImplTest {
     }
 
     @Test
-    void create() {
+    void whenCreateThenReturnSuccess() {
+        when(repository.save(any())).thenReturn(user);
+
+        User response = service.create(userDTO);
+
+        assertNotNull(response);
+        assertEquals(User.class, response.getClass());
+
+    }
+
+    @Test
+    void whenCreateThenReturnAnDataIntegrityViolationException(){
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
+        optionalUser.get().setId(anyInt());
+        try{
+            service.create(userDTO);
+        }catch (Exception ex){
+            assertEquals(DataIntegratyViolationException.class, ex.getClass());
+            assertEquals("E-mail já cadastrado no sistema", ex.getMessage());
+        }
+
     }
 
     @Test
