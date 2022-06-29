@@ -35,9 +35,9 @@ class UserResourceTest {
     private ModelMapper mapper;
 
 
-    private static final Integer ID      = 1;
-    private static final String NAME     = "Valdir";
-    private static final String EMAIL    = "valdir@mail.com";
+    private static final Integer ID = 1;
+    private static final String NAME = "Valdir";
+    private static final String EMAIL = "valdir@mail.com";
     private static final String PASSWORD = "123";
     private static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
     public static final String EMAIL_JA_CADASTRADO_NO_SISTEMA = "E-mail já cadastrado no sistema";
@@ -82,11 +82,29 @@ class UserResourceTest {
     }
 
     @Test
-    void create() {
+    void whenCreateThenReturnCreated() {
+        when(service.create(any())).thenReturn(user);
+        ResponseEntity<UserDTO> response = resource.create(userDTO);
+        assertNotNull(response);
+        assertNotNull(response.getHeaders().get("Location"));
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
     }
 
     @Test
-    void update() {
+    void whenUpdateThenReturnSuccess() {
+        when(service.update(any())).thenReturn(user);
+        when(mapper.map(any(), any())).thenReturn(userDTO);
+
+        ResponseEntity<UserDTO> response = resource.update(ID, userDTO);
+
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(UserDTO.class, response.getBody().getClass());
+
+
     }
 
     @Test
