@@ -1,8 +1,8 @@
 package br.com.example.api.resources;
 
-import br.com.example.api.domain.User;
 import br.com.example.api.domain.dto.UserDTO;
 import br.com.example.api.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +15,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserResource {
 
     public static final String ID = "/{id}";
-    final UserService service;
-
-    final ModelMapper mapper;
+    UserService service;
+    ModelMapper mapper;
 
     @GetMapping(value = ID)
     public ResponseEntity<UserDTO> findById(@PathVariable Integer id){
