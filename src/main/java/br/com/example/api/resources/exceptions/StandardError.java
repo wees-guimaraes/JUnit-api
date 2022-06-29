@@ -6,7 +6,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter @Setter @AllArgsConstructor
+@Getter
+@AllArgsConstructor
 public class StandardError {
 
     LocalDateTime timestamp;
