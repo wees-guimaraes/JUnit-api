@@ -6,21 +6,26 @@ import br.com.example.api.repository.UserRepository;
 import br.com.example.api.service.UserService;
 import br.com.example.api.service.exceptions.DataIntegratyViolationException;
 import br.com.example.api.service.exceptions.ObjectNotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    private UserRepository repository;
-    private ModelMapper mapper;
+
+     UserRepository repository;
+
+     ModelMapper mapper;
 
     @Override
     public User findById(Integer id) {
